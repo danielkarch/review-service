@@ -1,11 +1,20 @@
 # Reviews Service
 
-An example application built from the [ce3.g8 template](https://github.com/typelevel/ce3.g8).
+todo
 
 ## Run application
 
+The application expects a running PostgreSQL database:
+
 ```shell
-sbt run
+docker build -t my-postgres-db -f db.Dockerfile . 
+docker run --rm -d --name my-postgresdb-container -p 5432:5432 my-postgres-db
+```
+
+Input data is read from a file given at the command line:
+
+```shell
+sbt "run data/input.txt"
 ```
 
 ## Run tests

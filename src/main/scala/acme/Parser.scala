@@ -9,17 +9,18 @@ import fs2.io.file.Path
 import fs2.text
 import cats.effect.IO
 import cats.syntax.all._
+import scala.io.Source
 
 object Parser {
 
   def parseReview(line: String): Either[Throwable, Review] =
     Either.catchNonFatal(readFromString[Review](line))
 
-  def parseFromFile(filename: String): Stream[IO, Review] =
-    Files[IO]
-      .readAll(Path(filename))
+  def parseFromFile(path: String): Stream[IO, Review] =
+    Files[IO].readAll(Path(path))
       .through(text.utf8.decode)
       .through(text.lines)
+      .filter(_.nonEmpty)
       .flatMap { line =>
         parseReview(line) match {
           case Left(e)  => Stream.exec(IO.println(e.getMessage))

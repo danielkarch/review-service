@@ -3,7 +3,7 @@ namespace acme.api
 use smithy4s.api#simpleRestJson
 
 @simpleRestJson
-service ReviewsService {
+service ReviewService {
   version: "1.0.0",
   operations: [BestRated]
 }
@@ -23,7 +23,8 @@ structure BestRatedInput {
   @required
   limit: Integer,
   @required
-  min_number_reviews: Integer
+  @jsonName("min_number_reviews")
+  minNumberReviews: Integer
 }
 
 structure BestRatedOutput {
@@ -61,6 +62,7 @@ structure Review {
     overall: Rating,
     @required
     summary: String,
+    @required
     unixReviewTime: Long
 }
 

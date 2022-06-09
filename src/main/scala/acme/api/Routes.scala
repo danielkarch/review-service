@@ -5,13 +5,13 @@ import org.http4s.HttpRoutes
 import smithy4s.http4s.SimpleRestJsonBuilder
 import cats.syntax.all._
 
-final class Routes(reviewsService: ReviewsService[IO]) {
+final class Routes(reviewService: ReviewService[IO]) {
   
   private val example: Resource[IO, HttpRoutes[IO]] =
-    SimpleRestJsonBuilder.routes(reviewsService).resource
+    SimpleRestJsonBuilder.routes(reviewService).resource
 
   private val docs: HttpRoutes[IO] =
-    smithy4s.http4s.swagger.docs[IO](ReviewsService)
+    smithy4s.http4s.swagger.docs[IO](ReviewService)
 
   val all: Resource[IO, HttpRoutes[IO]] = example.map(_ <+> docs)
 }

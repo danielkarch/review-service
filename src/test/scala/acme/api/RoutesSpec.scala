@@ -1,19 +1,29 @@
 package acme.api
 
 import weaver._
-import acme.service.ReviewsServiceImpl
 import org.http4s.HttpApp
 import cats.effect.IO
 import cats.effect.kernel.Resource
 import org.http4s.Request
 import org.http4s.Method
 import org.http4s.implicits._
+import acme.service.ValidatedReviewService
+import java.time.LocalDate
 
 object RoutesSpec extends IOSuite {
 
   override type Res = HttpApp[IO]
   override def sharedResource =
-    new Routes(ReviewsServiceImpl).all.map(_.orNotFound)
+    new Routes(reviewService).all.map(_.orNotFound)
+
+  val reviewService = new ValidatedReviewService {
+    override def bestRated(
+        start: LocalDate,
+        end: LocalDate,
+        limit: Int,
+        min_number_reviews: Int
+    ): IO[BestRatedOutput] = IO.pure(BestRatedOutput(Nil))
+  }
 
   def request(s: String) =
     Request[IO](
