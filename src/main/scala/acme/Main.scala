@@ -1,13 +1,13 @@
 package acme
 
-import api._
-import service._
-import cats.effect._
-import cats.implicits._
-import org.http4s.implicits._
-import org.http4s.ember.server._
-import org.http4s._
-import com.comcast.ip4s._
+import api.*
+import service.*
+import cats.effect.*
+import cats.implicits.*
+import org.http4s.implicits.*
+import org.http4s.ember.server.*
+import org.http4s.*
+import com.comcast.ip4s.*
 import smithy4s.http4s.SimpleRestJsonBuilder
 import com.github.plokhotnyuk.jsoniter_scala.core.JsonValueCodec
 import skunk.Session
@@ -15,6 +15,7 @@ import skunk.implicits.*
 import skunk.codec.all.*
 import org.http4s.server.middleware
 import org.typelevel.log4cats.slf4j.Slf4jLogger
+import org.typelevel.log4cats.Logger
 import acme.persistence.Database
 
 object Main extends IOApp {
@@ -28,15 +29,15 @@ object Main extends IOApp {
   def runWithFile(path: String): IO[ExitCode] =
     Database.makeSession.use { session =>
       for {
-        logger          <- Slf4jLogger.create[IO]
-        _               <- logger.info("starting up")
-        reviewRepository = PostgresReviewRepository(session)
-        reviews          = Parser.parseFromFile(path)
-        _               <- reviewRepository.addReviews(reviews)
-        reviewService    = ValidatedReviewService(reviewRepository)
-        buildRoutes      = Routes(reviewService).all
-        server           = buildRoutes.flatMap(Server.apply)
-        _               <- server.use(_ => IO.never)
+        given Logger[IO] <- Slf4jLogger.create[IO]
+        _                <- Logger[IO].info("starting up")
+        reviewRepository  = PostgresReviewRepository(session)
+        reviews           = Parser.parseFromFile(path)
+        _                <- reviewRepository.addReviews(reviews)
+        reviewService     = ValidatedReviewService(reviewRepository)
+        buildRoutes       = Routes(reviewService).all
+        server            = buildRoutes.flatMap(Server.apply)
+        _                <- server.use(_ => IO.never)
       } yield ExitCode.Success
     }
 

@@ -2,12 +2,12 @@ package acme
 package service
 
 import api.*
-import cats.effect._
+import cats.effect.*
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import scala.util.Try
-import cats.syntax.all._
-import cats.data.Validated._
+import cats.syntax.all.*
+import cats.data.Validated.*
 
 trait ValidatedReviewService extends ReviewService[IO] {
 

@@ -6,7 +6,7 @@ import cats.effect.*
 import natchez.Trace.Implicits.noop
 import java.time.LocalDate
 import io.zonky.test.db.postgres.embedded.EmbeddedPostgres
-import cats.syntax.all._
+import cats.syntax.all.*
 import scala.io.Source
 import acme.api.Review
 import acme.api.Rating

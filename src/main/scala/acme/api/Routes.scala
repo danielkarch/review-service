@@ -1,9 +1,9 @@
 package acme.api
 
-import cats.effect._
+import cats.effect.*
 import org.http4s.HttpRoutes
 import smithy4s.http4s.SimpleRestJsonBuilder
-import cats.syntax.all._
+import cats.syntax.all.*
 
 final class Routes(reviewService: ReviewService[IO]) {
   

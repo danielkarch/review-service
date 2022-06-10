@@ -1,12 +1,12 @@
 package acme.api
 
-import weaver._
+import weaver.*
 import org.http4s.HttpApp
 import cats.effect.IO
 import cats.effect.kernel.Resource
 import org.http4s.Request
 import org.http4s.Method
-import org.http4s.implicits._
+import org.http4s.implicits.*
 import acme.service.ValidatedReviewService
 import java.time.LocalDate
 
