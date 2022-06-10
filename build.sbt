@@ -8,7 +8,7 @@ lazy val root = (project in file("."))
   .enablePlugins(Smithy4sCodegenPlugin)
   .configs(IntegrationTest)
   .settings(
-    name := "reviews-service",
+    name := "review-service",
     Defaults.itSettings,
     testFrameworks += new TestFramework("weaver.framework.CatsEffect"),
     libraryDependencies ++=
