@@ -17,5 +17,6 @@ lazy val root = (project in file("."))
         Dependencies.http4s ++
         Dependencies.weaver ++
         Dependencies.logging ++
-        Dependencies.skunk
+        Dependencies.skunk ++ 
+        Dependencies.postgres
   )

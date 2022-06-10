@@ -37,7 +37,7 @@ final class PostgresReviewRepository(session: Session[IO]) extends ReviewReposit
 
     val query = sql"""
       select asin, 
-             avg(overall) 
+             cast(round(cast(avg(overall) as numeric), 2) as double precision) as avg
         from review 
        where unixReviewTime between $int8 and $int8  
     group by asin
@@ -46,7 +46,7 @@ final class PostgresReviewRepository(session: Session[IO]) extends ReviewReposit
        limit $int4;
        """
       .query(varchar(10) ~ float8)
-      .map { case (asin, avg) => Result(Asin(asin), avg) }
+      .map { case (asin, avg) => Result(asin, avg) }
 
     session.prepare(query).use(ps => ps.stream(startInstant ~ endInstant ~ minNumberReviews ~ limit, 64).compile.toList)
   }

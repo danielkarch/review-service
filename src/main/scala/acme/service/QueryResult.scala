@@ -1,7 +1,6 @@
 package acme
 package service
 
-import api.Asin
 import api.Rating
 import acme.api.Review
 

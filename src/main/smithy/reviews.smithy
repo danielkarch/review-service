@@ -41,12 +41,11 @@ list Results {
 
 structure Result {
   @required
-  asin: Asin,
+  asin: String,
   @required
-  average_rating: Double
+  @jsonName("average_rating")
+  averageRating: Double
 }
-
-string Asin
 
 structure Review {
     @required

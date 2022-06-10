@@ -52,4 +52,7 @@ object Dependencies {
     "com.github.pureconfig" %% "pureconfig-cats-effect"
   ).map(_ % Versions.pureconfig)
 
+  lazy val postgres = Seq(
+    "io.zonky.test" % "embedded-postgres" % "1.3.1" % "it"    
+  )
 }
