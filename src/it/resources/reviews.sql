@@ -9,4 +9,6 @@ create table review (
     unique (reviewerID, asin, overall, unixReviewTime)
 );
 
+create index reviewTimeIdx on review using btree (unixReviewTime, asin);
+
 commit;

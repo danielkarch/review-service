@@ -26,6 +26,17 @@ trait ValidatedReviewService extends ReviewService[IO] {
     case Valid(start, end, _, _) => IO.pure(start, end, limit, minNumberReviews)
   }
 
+  /** Returns a list of the best-rated entries, considering reviews authored within the provided range. The output is
+    * sorted by average score in descending order.
+    * @param start
+    *   the start of the range (format dd.MM.yyyy)
+    * @param end
+    *   the end of the range (format dd.MM.yyyy)
+    * @param limit
+    *   the maximum number of reviews to return
+    * @param minNumberReviews
+    *   only consider entries with at least this many reviews
+    */
   override final def bestRated(
       start: Date,
       end: Date,
@@ -33,7 +44,7 @@ trait ValidatedReviewService extends ReviewService[IO] {
       minNumberReviews: Int
   ): IO[BestRatedOutput] = validate(start, end, limit, minNumberReviews).flatMap(bestRated(_, _, _, _))
 
-  def bestRated(
+  protected def bestRated(
       start: LocalDate,
       end: LocalDate,
       limit: Int,
@@ -52,9 +63,9 @@ object ValidatedReviewService {
         start: LocalDate,
         end: LocalDate,
         limit: Int,
-        min_number_reviews: Int
+        minNumberReviews: Int
     ): IO[BestRatedOutput] =
-      reviewRepository.findReviews(start, end, limit, min_number_reviews).map(BestRatedOutput(_))
+      reviewRepository.findReviews(start, end, limit, minNumberReviews).map(BestRatedOutput(_))
 
   }
 }

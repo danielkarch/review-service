@@ -20,6 +20,10 @@ import acme.persistence.Database
 
 object Main extends IOApp {
 
+  /** Entrypoint to the application. Provide the path to the input file as the first argument.
+    *
+    * E.g.: {{{./sbt "run data/input.txt"}}}
+    */
   def run(args: List[String]): IO[ExitCode] =
     args.headOption match {
       case None       => IO.println("Error: Please provide a path to an input file.").as(ExitCode.Error)

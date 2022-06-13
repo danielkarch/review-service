@@ -25,6 +25,11 @@ object Parser {
       }
     }
 
+  /** Parses reviews from a file. The file should contain one review per line in JSON format. Malformed input is
+    * skipped.
+    * @param path
+    *   the path to the input file
+    */
   def parseFromFile(path: String)(using logger: Logger[IO]): Stream[IO, Review] =
     parseReviews(
       Files[IO]

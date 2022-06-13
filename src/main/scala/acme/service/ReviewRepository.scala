@@ -12,7 +12,22 @@ import java.time.ZoneId
 import java.time.ZoneOffset
 
 trait ReviewRepository {
+
+  /** Adds all reviews in the stream to the database.
+    */
   def addReviews(reviews: Stream[IO, Review]): IO[Unit]
+
+  /** Returns a list of the best-rated entries, considering reviews authored within the provided range. The output is
+    * sorted by average score in descending order.
+    * @param start
+    *   the start of the range
+    * @param end
+    *   the end of the range
+    * @param limit
+    *   the maximum number of reviews to return
+    * @param minNumberReviews
+    *   only consider entries with at least this many reviews
+    */
   def findReviews(start: LocalDate, end: LocalDate, limit: Int, minNumberReviews: Int): IO[List[Result]]
 }
 
@@ -46,7 +61,7 @@ final class PostgresReviewRepository(session: Session[IO]) extends ReviewReposit
        limit $int4;
        """
       .query(varchar(10) ~ float8)
-      .map { case (asin, avg) => Result(asin, avg) }
+      .map(Result(_, _))
 
     session.prepare(query).use(ps => ps.stream(startInstant ~ endInstant ~ minNumberReviews ~ limit, 64).compile.toList)
   }

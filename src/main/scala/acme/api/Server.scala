@@ -13,6 +13,6 @@ object Server {
       .default[IO]
       .withPort(port"8086")
       .withHost(host"localhost")
-      .withHttpApp(middleware.Logger.httpApp(true, true)(routes.orNotFound))
+      .withHttpApp(routes.orNotFound)
       .build
 }

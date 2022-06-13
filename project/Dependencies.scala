@@ -2,8 +2,7 @@ import sbt.*
 
 object Dependencies {
   object Versions {
-    val catsEffect = "3.3.12"
-    val smithy4s   = "0.13.5"
+    val smithy4s   = "0.14.2"
     val http4s     = "0.23.12"
     val weaver     = "0.7.12"
     val woof       = "0.4.4"
@@ -12,13 +11,7 @@ object Dependencies {
     val log4cats   = "2.3.1"
     val pureconfig = "0.17.1"
   }
-
-  lazy val catsEffect = Seq(
-    "org.typelevel" %% "cats-effect",
-    "org.typelevel" %% "cats-effect-kernel",
-    "org.typelevel" %% "cats-effect-std"
-  ).map(_ % Versions.catsEffect)
-
+  
   lazy val smithy4s = Seq(
     "com.disneystreaming.smithy4s" %% "smithy4s-http4s",
     "com.disneystreaming.smithy4s" %% "smithy4s-http4s-swagger"
